@@ -3,8 +3,6 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { Hono } from "hono"
 import pkg from "../package.json"
 
-// import { } from "@brave/brave-search-mcp-server"
-
 const app = new Hono()
 
 const mcpServer = new McpServer(
