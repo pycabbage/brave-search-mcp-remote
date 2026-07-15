@@ -1,18 +1,37 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.jsonc`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { StreamableHTTPTransport } from "@hono/mcp"
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
+import { Hono } from "hono"
+import pkg from "../package.json"
+
+// import { } from "@brave/brave-search-mcp-server"
+
+const app = new Hono()
+
+const mcpServer = new McpServer(
+  {
+    version: pkg.version,
+    name: "brave-search-mcp-remote",
+    title: "Brave Search MCP Remote",
+  },
+  {
+    capabilities: {
+      logging: {},
+      tools: { listChanged: false },
+    },
+    instructions: `Use this server to search the Web for various types of data via the Brave Search API.`,
+  }
+)
+
+const transport = new StreamableHTTPTransport()
+
+app.all("/mcp", async (c) => {
+  if (!mcpServer.isConnected()) {
+    await mcpServer.connect(transport)
+  }
+
+  return transport.handleRequest(c)
+})
 
 export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		return new Response("Hello World!");
-	},
-} satisfies ExportedHandler<Env>;
+  fetch: app.fetch,
+} satisfies ExportedHandler<Env>
