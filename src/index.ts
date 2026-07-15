@@ -3,7 +3,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { Hono } from "hono"
 import pkg from "../package.json"
 
-const app = new Hono()
+const app = new Hono<{ Bindings: Env }>()
 
 const mcpServer = new McpServer(
   {

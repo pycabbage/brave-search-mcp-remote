@@ -22,6 +22,7 @@
     "lint-staged": "^17.0.8",
     "typescript": "^5.5.2",
     "vitest": "~3.2.0",
-    "wrangler": "^4.110.0"
+    "wrangler": "^4.110.0",
+    "zod": "^4.4.3"
   }
 }
