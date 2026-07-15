@@ -2,6 +2,7 @@ import { StreamableHTTPTransport } from "@hono/mcp"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { Hono } from "hono"
 import pkg from "../package.json"
+import tools from "./tools/index"
 
 const app = new Hono<{ Bindings: Env }>()
 
@@ -21,39 +22,9 @@ const mcpServer = new McpServer(
 )
 
 // Register tools
-//mcpServer.registerTool(...)
-//mcpServer.registerTool(...)
-//mcpServer.registerTool(...)
-
-// sample procedure tool
-mcpServer.registerTool(
-  "sample_procedure",
-  {
-    title: "sample_procedure",
-  },
-  async ({ requestInfo }) => {
-    const apiKey = requestInfo?.headers?.["x-api-key"]
-    if (!apiKey || Array.isArray(apiKey)) {
-      return {
-        isError: true,
-        content: [
-          {
-            type: "text",
-            text: "Invalid API key",
-          },
-        ],
-      }
-    }
-
-    // some procedure logic here
-
-    return {
-      content: [
-        // ...
-      ],
-    }
-  }
-)
+for (const tool of Object.values(tools)) {
+  tool.register(mcpServer)
+}
 
 const transport = new StreamableHTTPTransport()
 
