@@ -20,6 +20,41 @@ const mcpServer = new McpServer(
   }
 )
 
+// Register tools
+//mcpServer.registerTool(...)
+//mcpServer.registerTool(...)
+//mcpServer.registerTool(...)
+
+// sample procedure tool
+mcpServer.registerTool(
+  "sample_procedure",
+  {
+    title: "sample_procedure",
+  },
+  async ({ requestInfo }) => {
+    const apiKey = requestInfo?.headers?.["x-api-key"]
+    if (!apiKey || Array.isArray(apiKey)) {
+      return {
+        isError: true,
+        content: [
+          {
+            type: "text",
+            text: "Invalid API key",
+          },
+        ],
+      }
+    }
+
+    // some procedure logic here
+
+    return {
+      content: [
+        // ...
+      ],
+    }
+  }
+)
+
 const transport = new StreamableHTTPTransport()
 
 app.all("/mcp", async (c) => {
