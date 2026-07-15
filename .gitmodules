@@ -1,0 +1,3 @@
+[submodule "vendor/brave-search-mcp-server"]
+	path = vendor/brave-search-mcp-server
+	url = git@github.com:brave/brave-search-mcp-server.git
