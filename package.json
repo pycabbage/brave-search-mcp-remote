@@ -22,7 +22,7 @@
     "lint-staged": "^17.0.8",
     "typescript": "^7.0.2",
     "vitest": "~4.1.10",
-    "wrangler": "^4.110.0",
+    "wrangler": "^4.112.0",
     "zod": "^4.4.3"
   },
   "packageManager": "pnpm@11.13.0",
